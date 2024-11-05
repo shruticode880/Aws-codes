@@ -1,0 +1,27 @@
+#creating keypair for ec2
+resource "aws_key_pair" "my_keys22"{
+key_name = "mykeys_22"
+public_key = "${file("my_keys22.pub")}"
+
+}
+
+
+#Creating ec2 instance/Resource ...
+resource "aws_instance" "my_instance4" {
+ami           = "${lookup(var.AMIS, var.AWS_REGION)}"
+instance_type = "${var.AWS_INSTANCE_TYPE}"
+key_name = "${aws_key_pair.my_keys22.key_name}"
+subnet_id  =  "subnet-01eb3d201da4a5c99"
+
+
+tags = {
+   Name =  "first-tf"
+}
+
+
+ user_data = file ("${path.module}/script.sh")
+
+
+
+}
+
