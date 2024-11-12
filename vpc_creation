@@ -28,6 +28,35 @@ resource "aws_subnet" "private_subnets" {
    Name = "Private Subnet ${count.index + 1}"
  }
 }
+#below is for vars
+variable "azs" {
+ type        = list(string)
+ description = "Availability Zones"
+ default     = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
+}
+
+resource "aws_subnet" "public_subnets" {
+ count             = length(var.public_subnet_cidrs)
+ vpc_id            = aws_vpc.main.id
+ cidr_block        = element(var.public_subnet_cidrs, count.index)
+ availability_zone = element(var.azs, count.index)
+ 
+ tags = {
+   Name = "Public Subnet ${count.index + 1}"
+ }
+}
+ 
+resource "aws_subnet" "private_subnets" {
+ count             = length(var.private_subnet_cidrs)
+ vpc_id            = aws_vpc.main.id
+ cidr_block        = element(var.private_subnet_cidrs, count.index)
+ availability_zone = element(var.azs, count.index)
+ 
+ tags = {
+   Name = "Private Subnet ${count.index + 1}"
+ }
+}
+
 
 
 #create eip
