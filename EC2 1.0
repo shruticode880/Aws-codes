@@ -19,3 +19,22 @@ resource "aws_instance" "Instance_A" {
 
 
 
+  user_data = <<-EOF
+    #!/bin/bash
+    sudo yum update -y
+    sudo yum install -y httpd.x86_64
+    sudo systemctl start httpd.service
+    sudo systemctl enable httpd.service
+    sudo aws s3 sync s3://awsbucketbeta00/website /var/www/html
+  EOF
+
+  tags = {
+    Name = "Codewithmuh_1.0"
+  }
+}
+
+
+
+
+
+
