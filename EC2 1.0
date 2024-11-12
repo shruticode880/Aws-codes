@@ -1,0 +1,21 @@
+# 10) Create Linux Server and Install/Enable Apache2
+resource "aws_instance" "Instance_A" {
+  ami                  = "ami-02f617729751b375a"
+  instance_type        = "t2.micro"
+  count                = 2
+  availability_zone    = "eu-west-2a"
+  key_name             = "${aws_key_pair.my_keys22.key_name}"
+  iam_instance_profile = "${aws_iam_instance_profile.EC2-S3_Profile.name}"
+
+#  network_interface {
+#    device_index = 0
+#    network_interface_id = aws_network_interface.ENI_A.id
+#  }
+
+#  network_interface {
+#    device_index = 1
+#    network_interface_id = aws_network_interface.ENI_A.id
+#  }
+
+
+
